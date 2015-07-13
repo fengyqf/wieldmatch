@@ -110,7 +110,7 @@ for f in tofill:
     src=''
     tick+=1
     if tick % tick_every_lines == 0:
-        print 'running %.6d....'%(tick)
+        print 'matched %.6d lines, %s matched....'%(tick,len(match))
     for p in pool:
         if p[1].find(f[1]) != -1:
             match.append([f[0],f[1],p[0],p[1]])
