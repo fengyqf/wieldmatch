@@ -87,7 +87,7 @@ for line in reader:
     #if len(pool) > 100:break
     if len(line)>=pool_data_index:
         pool.append([line[pool_pk_index],line[pool_data_index]])
-print pool
+
 
 print 'pool file loaded, %s lines'%(len(pool))
 
@@ -98,7 +98,6 @@ for line in reader:
     if len(line)>=pool_data_index:
         tofill.append([line[pool_pk_index],line[pool_data_index]])
 
-print tofill
 print 'tofill file loaded, %s lines'%(len(tofill))
 
 
@@ -107,7 +106,6 @@ src=''
 ok=0
 tick=0
 for f in tofill:
-    #print "## %s"%(tofill[f])
     ok=0
     src=''
     tick+=1
@@ -119,15 +117,11 @@ for f in tofill:
             ok=1
             src=p[1]
             break
-    #    print "    %s .... %s "%(pool[p],ok)
     if ok:
         print "toofill[%s]:%s  found in pool[%s]:%s ...... %s"%(f[0],f[1],p[0],p[1],ok)
     else:
-    #    print "toofill[%s] NIL"
         pass
 
-
-#print match
 
 writer=csv.writer(file('output.csv','wb'))
 writer.writerow(['tofill_pk','tofill_data','pool_pk','pool_data'])
