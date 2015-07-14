@@ -83,8 +83,6 @@ match=[]
 reader=csv.reader(file(pool_path,'rb'))
 
 for line in reader:
-    #print line[0],line[1]
-    #if len(pool) > 100:break
     if len(line)>=pool_data_index:
         pool.append([line[pool_pk_index],line[pool_data_index]])
 
@@ -94,7 +92,6 @@ print 'pool file loaded, %s lines'%(len(pool))
 
 reader=csv.reader(file(tofill_path,'rb'))
 for line in reader:
-    #if len(tofill) > 1000:break
     if len(line)>=pool_data_index:
         tofill.append([line[pool_pk_index],line[pool_data_index]])
 
