@@ -68,7 +68,7 @@ tofill_pk_index=0
 tofill_data_index=1
 
 # 每处理指定次数，报告一次处理行数
-tick_every_lines=20
+tick_every_lines=100
 
 
 import sys
@@ -98,8 +98,11 @@ for line in reader:
     if len(line)>=pool_data_index:
         tofill.append([line[pool_pk_index],line[pool_data_index]])
 
-print 'tofill file loaded, %s lines'%(len(tofill))
+tofill_count=len(tofill)
+print 'tofill file loaded, %s lines'%(tofill_count)
 
+writer=csv.writer(file('output.csv','wb'))
+writer.writerow(['tofill_pk','tofill_data','pool_pk','pool_data'])
 
 print 'matching start ...'
 src=''
@@ -110,10 +113,13 @@ for f in tofill:
     src=''
     tick+=1
     if tick % tick_every_lines == 0:
-        print 'matched %.6d lines, %s matched....'%(tick,len(match))
+        matched_count=len(match)
+        print 'matched %d/%s lines (%.2f%%), %s matched....'%(tick,tofill_count*100.0,tick/tofill_count,matched_count)
     for p in pool:
         if p[1].find(f[1]) != -1:
-            match.append([f[0],f[1],p[0],p[1]])
+            line=[f[0],f[1],p[0],p[1]]
+            writer.writerow(line)
+            match.append(line)
             ok=1
             src=p[1]
             break
@@ -123,14 +129,8 @@ for f in tofill:
         pass
 
 
-writer=csv.writer(file('output.csv','wb'))
-writer.writerow(['tofill_pk','tofill_data','pool_pk','pool_data'])
-count=0
-for line in match:
-    writer.writerow(line)
-    count+=1
 
-print "\n%s records matched, written to file output.csv."%(count)
+print "\n%s records matched, written to file output.csv."%(len(match))
 
 
 #raw_input(' press any key to exit')
